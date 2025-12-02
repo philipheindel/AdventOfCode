@@ -1,9 +1,7 @@
-left = []
-right = []
 location = 50
 zero_count = 0
 
-with open("../input.txt") as file:
+with open("input.txt") as file:
     for line in file:
         print(line.rstrip())
         start = location
