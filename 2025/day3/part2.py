@@ -1,7 +1,7 @@
 total = 0
 
 
-def get_max_joltage(number: str) -> int:
+def get_max_joltage(number: str, digits: int) -> int:
     largest = 0
     print(f"{number}")
     for i in range(len(number)):
@@ -14,7 +14,7 @@ def get_max_joltage(number: str) -> int:
     return largest
         
 
-with open("input.txt") as file:
+with open("test_input.txt") as file:
     for line in file:
         total += get_max_joltage(line.rstrip())
 
