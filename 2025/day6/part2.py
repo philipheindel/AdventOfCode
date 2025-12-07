@@ -16,10 +16,12 @@ width = len(matrix[0].split())
 height = len(matrix)
 
 for i in range(width):
-    print(re.split(r"(\s+)", matrix[i]))
-    
+    is_separator = True
     for j in range(height):
-        #print(matrix[j].split(' '))
+        if matrix[j][i] != ' ':
+            is_separator = False
+    if is_separator:
+
         print(f"{j} {i}")
 
 print(matrix)
