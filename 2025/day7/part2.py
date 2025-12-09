@@ -1,6 +1,6 @@
 total = 0
 
-debugging = True
+debugging = False
 
 if debugging:
     input_file = "test_input.txt"
@@ -19,46 +19,27 @@ def debug(message: str, end: str = '\n') -> None:
         print(message, end=end)
 
 
-
-def eval_point(row: int, col: int) -> None:
-    global matrix
+def eval_point(row: int, col: int, mtrx) -> None:
     global splits
-    current_point = matrix[row][col]
-    previous_point = matrix[row-1][col]
-    if col-1 >= 0:
-        current_left = matrix[row][col-1]
-    if col+1 < len(matrix[row]):
-        current_right = matrix[row][col+1]
-    if current_point == "." and (previous_point == "." or previous_point == "^"):
+    if row == len(mtrx):
+        splits += 1
         return
-    if current_point == "." and previous_point == "|":
-        matrix[row][col] = "|"
-        return
-    if current_point == "^" and previous_point == "|":
-        if current_left == "." or current_right == ".":
-            debug(f"matrix[{row}][{col}] = {matrix[row][col]}")
-            splits += 1
-            matrix[row][col-1] = "|"
-            matrix[row][col+1] = "|"
-            matrix[row][col] = "+"
-    if previous_point == "S":
-        matrix[row][col] = "|"
-        return
-
+    current_point = mtrx[row][col]
+    if current_point == "." or current_point == "S":
+        eval_point(row + 1, col, mtrx)
+    if current_point == "^":
+        eval_point(row + 1, col - 1, mtrx)
+        eval_point(row + 1, col + 1, mtrx)
+ 
 
 with open(input_file) as file:
     for line in file:
         matrix.append(list(line.rstrip()))
 
-for i,row in enumerate(matrix):
-    for j,element in enumerate(matrix[i]):
-        eval_point(i, j)
-    # print(matrix[i])
+starting_row = 0
+starting_col = matrix[0].index("S")
 
-for i,row in enumerate(matrix):
-    for j,element in enumerate(matrix[i]):
-        debug(matrix[i][j], "")
-    debug("")
+eval_point(starting_row, starting_col, matrix)
 
 total = splits
 
